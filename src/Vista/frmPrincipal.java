@@ -17,6 +17,7 @@ import javax.swing.ImageIcon;
 public class frmPrincipal extends javax.swing.JFrame {
     frmPrincipal principal;
     frmModuloChofer modChofer = new frmModuloChofer();
+    frmAgregarChofer adChofer =  new frmAgregarChofer();
     
     /**
      * Creates new form frmPrincipal
@@ -146,7 +147,7 @@ public class frmPrincipal extends javax.swing.JFrame {
 
     private void btnModChoferesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModChoferesActionPerformed
         // TODO add your handling code here:
-        ChoferesControlador controller = new ChoferesControlador(modChofer,this);
+        ChoferesControlador controller = new ChoferesControlador(modChofer,this,adChofer);
         controller.actionPerformed(evt);
         this.principal = controller.moduloPrincipal;
     }//GEN-LAST:event_btnModChoferesActionPerformed
