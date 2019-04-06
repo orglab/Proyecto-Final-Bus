@@ -31,18 +31,17 @@ public class ChoferesControlador implements ActionListener, WindowListener {
     private frmAgregarChofer agregarChofer;
     private clsChofer chofer;
     private ModeloChofer modeloChofer;
-    
+
     DefaultTableModel modelT;
 
-    public ChoferesControlador(frmModuloChofer modChofer, frmPrincipal modPrincipal, frmAgregarChofer agChofer,clsChofer chofer,ModeloChofer modelChofer) {
+    public ChoferesControlador(frmModuloChofer modChofer, frmPrincipal modPrincipal, frmAgregarChofer agChofer, clsChofer chofer, ModeloChofer modelChofer) {
         this.moduloChofer = modChofer;
         this.moduloPrincipal = modPrincipal;
         this.agregarChofer = agChofer;
         this.chofer = chofer;
         this.modeloChofer = modelChofer;
-        
-        //Listener de la  de choferes
 
+        //Listener de la  de choferes
         //Listener para los Botones mapeados en la vista
         this.moduloPrincipal.btnModChoferes.addActionListener(this);
 
@@ -79,23 +78,26 @@ public class ChoferesControlador implements ActionListener, WindowListener {
 
             if (modeloChofer.insertarChofer(chofer)) {
                 JOptionPane.showMessageDialog(agregarChofer, "Chofer Registrado");
-                //limpiarVistaNuevo();
+
+                limpiarVistaNuevo();
             } else {
                 JOptionPane.showMessageDialog(agregarChofer, "Error al guardar");
             }
 
         }
 
-//        if (e.getSource() == frmB.btnLimpiar) {
-//            limpiarVistaNuevo();
-//        }
+        if (e.getSource() == agregarChofer.btnLimpiar) {
+            limpiarVistaNuevo();
+        }
+        if (e.getSource() == agregarChofer.btnCancelar) {
+            agregarChofer.dispose();
+        }
 
-    //}
+    }
 
-}
-        @Override
+    @Override
     public void windowActivated(WindowEvent we) {
-        String titulos[] = {"Cédula", "Nombre","Apellido" ,"Correo", "Teléfono", "Dirección"};
+        String titulos[] = {"Cédula", "Nombre", "Apellido", "Correo", "Teléfono", "Dirección"};
         modelT = new DefaultTableModel(null, titulos);
         DataBase bd = new DataBase();
 
@@ -112,7 +114,7 @@ public class ChoferesControlador implements ActionListener, WindowListener {
             } while (rs.next());
             moduloChofer.tblChoferes.setModel(modelT);
             //moduloChofer.lblRegistros.setText("Cantidad de Registros: " + modelT.getRowCount());
-            
+
         } catch (SQLException ex) {
             //////
         }
@@ -125,12 +127,12 @@ public class ChoferesControlador implements ActionListener, WindowListener {
 
     @Override
     public void windowClosing(WindowEvent e) {
-  //      throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        //      throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
     public void windowClosed(WindowEvent e) {
- //       throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        //       throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
@@ -140,12 +142,21 @@ public class ChoferesControlador implements ActionListener, WindowListener {
 
     @Override
     public void windowDeiconified(WindowEvent e) {
-  //      throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        //      throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
     public void windowDeactivated(WindowEvent e) {
-  //      throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        //      throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    public void limpiarVistaNuevo() {
+        agregarChofer.txtCedulaChofer.setText(null);
+        agregarChofer.txtDireccionChofer.setText(null);
+        agregarChofer.txtApellidoChofer.setText(null);
+        agregarChofer.txtTelChofer.setText(null);
+        agregarChofer.txtNombreChofer.setText(null);
+        agregarChofer.txtCorreoChofer.setText(null);
     }
 
 }
