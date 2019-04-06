@@ -203,11 +203,11 @@ public class frmAgregarChofer extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JTextField txtApellidoChofer;
-    private javax.swing.JTextField txtCedulaChofer;
-    private javax.swing.JTextField txtCorreoChofer;
-    private javax.swing.JTextField txtDireccionChofer;
-    private javax.swing.JTextField txtNombreChofer;
-    private javax.swing.JTextField txtTelChofer;
+    public javax.swing.JTextField txtApellidoChofer;
+    public javax.swing.JTextField txtCedulaChofer;
+    public javax.swing.JTextField txtCorreoChofer;
+    public javax.swing.JTextField txtDireccionChofer;
+    public javax.swing.JTextField txtNombreChofer;
+    public javax.swing.JTextField txtTelChofer;
     // End of variables declaration//GEN-END:variables
 }

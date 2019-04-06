@@ -6,6 +6,8 @@
 package Vista;
 
 import Controlador.ChoferesControlador;
+import JavaBeans.clsChofer;
+import Modelo.ModeloChofer;
 import java.awt.Graphics;
 import java.awt.Image;
 import javax.swing.ImageIcon;
@@ -18,6 +20,8 @@ public class frmPrincipal extends javax.swing.JFrame {
     frmPrincipal principal;
     frmModuloChofer modChofer = new frmModuloChofer();
     frmAgregarChofer adChofer =  new frmAgregarChofer();
+    clsChofer chofer = new clsChofer();
+    ModeloChofer modeloChofer = new ModeloChofer();
     
     /**
      * Creates new form frmPrincipal
@@ -147,7 +151,7 @@ public class frmPrincipal extends javax.swing.JFrame {
 
     private void btnModChoferesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModChoferesActionPerformed
         // TODO add your handling code here:
-        ChoferesControlador controller = new ChoferesControlador(modChofer,this,adChofer);
+        ChoferesControlador controller = new ChoferesControlador(modChofer,this,adChofer, chofer, modeloChofer);
         controller.actionPerformed(evt);
         this.principal = controller.moduloPrincipal;
     }//GEN-LAST:event_btnModChoferesActionPerformed
