@@ -12,6 +12,8 @@ import Vista.frmModuloChofer;
 import Vista.frmPrincipal;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 import java.sql.ResultSet;
@@ -24,7 +26,7 @@ import modelo.DataBase;
  *
  * @author JJGB
  */
-public class ChoferesControlador implements ActionListener, WindowListener {
+public class ChoferesControlador implements ActionListener, WindowListener, KeyListener {
 
     private frmModuloChofer moduloChofer;
     public frmPrincipal moduloPrincipal;
@@ -50,6 +52,7 @@ public class ChoferesControlador implements ActionListener, WindowListener {
         this.moduloChofer.btnEditar.addActionListener(this);
         this.moduloChofer.btnEliminar.addActionListener(this);
         this.moduloChofer.addWindowListener(this);
+        this.moduloChofer.txtBuscar.addKeyListener(this);
 
         //Botones mapeados con Listener modulo Agregar Chofer Vista
         this.agregarChofer.btnGuardar.addActionListener(this);
@@ -60,43 +63,90 @@ public class ChoferesControlador implements ActionListener, WindowListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
+        // Acción para el botón que abre el módulo del chofer. 
         if (e.getSource() == moduloPrincipal.btnModChoferes) {
             moduloChofer.setVisible(true);
         }
+        // Acción para el botón que abre el módulo del agregar chofer. 
         if (e.getSource() == moduloChofer.btnAgregar) {
             agregarChofer.setVisible(true);
             agregarChofer.setTitle("AgregarChofer");
-
         }
+        // Acción para el botón guardar dentro del form agregarchofer chofer. 
+
         if (e.getSource() == agregarChofer.btnGuardar) {
-            chofer.setCedula(agregarChofer.txtCedulaChofer.getText());
-            chofer.setNombre(agregarChofer.txtNombreChofer.getText());
-            chofer.setApellido(agregarChofer.txtApellidoChofer.getText());
-            chofer.setCorreo(agregarChofer.txtCorreoChofer.getText());
-            chofer.setTelefono(Integer.parseInt(agregarChofer.txtTelChofer.getText()));
-            chofer.setDireccion(agregarChofer.txtDireccionChofer.getText());
 
-            if (modeloChofer.insertarChofer(chofer)) {
-                JOptionPane.showMessageDialog(agregarChofer, "Chofer Registrado");
-
-                limpiarVistaNuevo();
+            if (validarTexto()) {
+                chofer.setCedula(agregarChofer.txtCedulaChofer.getText());
+                chofer.setNombre(agregarChofer.txtNombreChofer.getText());
+                chofer.setApellido(agregarChofer.txtApellidoChofer.getText());
+                chofer.setCorreo(agregarChofer.txtCorreoChofer.getText());
+                chofer.setTelefono(Integer.parseInt(agregarChofer.txtTelChofer.getText()));
+                chofer.setDireccion(agregarChofer.txtDireccionChofer.getText());
             } else {
-                JOptionPane.showMessageDialog(agregarChofer, "Error al guardar");
+                JOptionPane.showMessageDialog(agregarChofer, "Debe completar los campos solicitados");
+
             }
 
+            if (agregarChofer.getTitle().equals("AgregarChofer")) {
+                //Agregar chofer
+                if (modeloChofer.insertarChofer(chofer)) {
+                    JOptionPane.showMessageDialog(agregarChofer, "Chofer Registrado");
+                    limpiarVistaNuevo();
+                } else {
+                    JOptionPane.showMessageDialog(agregarChofer, "Error al guardar");
+                }
+            } else {
+                //Editar CHofer
+                modeloChofer.editarChofer(chofer);
+                JOptionPane.showMessageDialog(agregarChofer, "Chofer Editado");
+            }
         }
-
+        // Acción para el botón que limpia  la pantalla en el form agregarchofer. 
         if (e.getSource() == agregarChofer.btnLimpiar) {
             limpiarVistaNuevo();
         }
+        // Acción para el botón que cancela el modo de agregación del chofer. 
         if (e.getSource() == agregarChofer.btnCancelar) {
             agregarChofer.dispose();
+        }
+
+        if (e.getSource().equals(moduloChofer.btnEditar)) {
+            if (moduloChofer.tblChoferes.getSelectedRowCount() > 0) {
+                agregarChofer.setTitle("Editar Chofer");
+                chofer = modeloChofer.buscarChofer(moduloChofer.tblChoferes.getValueAt(moduloChofer.tblChoferes.getSelectedRow(), 0).toString());
+                agregarChofer.txtCedulaChofer.setText(chofer.getCedula());
+                agregarChofer.txtCedulaChofer.setEnabled(false);
+                agregarChofer.txtNombreChofer.setText(chofer.getNombre());
+                agregarChofer.txtApellidoChofer.setText(chofer.getApellido());
+                agregarChofer.txtCorreoChofer.setText(chofer.getCorreo());
+                agregarChofer.txtTelChofer.setText(String.valueOf(chofer.getTelefono()));
+                agregarChofer.txtDireccionChofer.setText(chofer.getDireccion());
+                agregarChofer.setVisible(true);
+            } else {
+                JOptionPane.showMessageDialog(agregarChofer, "Debe seleccionar al menos una fila para editar");
+            }
+        }
+        if (e.getSource().equals(moduloChofer.btnEliminar)) {
+            if (moduloChofer.tblChoferes.getSelectedRowCount() > 0) {
+                int opcion = JOptionPane.showConfirmDialog(null, "Está seguro que desea eliminar ese registro ?");
+                if (opcion == 0) {
+                    if (modeloChofer.eliminarChofer(moduloChofer.tblChoferes.getValueAt(moduloChofer.tblChoferes.getSelectedRow(), 0).toString())) {
+                        JOptionPane.showMessageDialog(null, "Registro eliminado exitosamente");
+                    } else {
+                        System.out.println("No Elimnars");
+                    }
+                } else {
+                    JOptionPane.showMessageDialog(agregarChofer, "Debe seleccionar al menos una fila para eliminar");
+                }
+            }
         }
 
     }
 
     @Override
-    public void windowActivated(WindowEvent we) {
+    public void windowActivated(WindowEvent we
+    ) {
         String titulos[] = {"Cédula", "Nombre", "Apellido", "Correo", "Teléfono", "Dirección"};
         modelT = new DefaultTableModel(null, titulos);
         DataBase bd = new DataBase();
@@ -116,38 +166,32 @@ public class ChoferesControlador implements ActionListener, WindowListener {
             //moduloChofer.lblRegistros.setText("Cantidad de Registros: " + modelT.getRowCount());
 
         } catch (SQLException ex) {
-            //////
         }
     }
 
     @Override
     public void windowOpened(WindowEvent e) {
-//        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
     public void windowClosing(WindowEvent e) {
-        //      throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
     public void windowClosed(WindowEvent e) {
-        //       throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
     public void windowIconified(WindowEvent e) {
-//        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
     public void windowDeiconified(WindowEvent e) {
-        //      throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+
     }
 
     @Override
     public void windowDeactivated(WindowEvent e) {
-        //      throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     public void limpiarVistaNuevo() {
@@ -157,6 +201,50 @@ public class ChoferesControlador implements ActionListener, WindowListener {
         agregarChofer.txtTelChofer.setText(null);
         agregarChofer.txtNombreChofer.setText(null);
         agregarChofer.txtCorreoChofer.setText(null);
+    }
+
+    private boolean validarTexto() {
+        return !agregarChofer.txtCedulaChofer.getText().isEmpty()
+                && !agregarChofer.txtNombreChofer.getText().isEmpty()
+                && !agregarChofer.txtApellidoChofer.getText().isEmpty()
+                && !agregarChofer.txtCorreoChofer.getText().isEmpty()
+                && !agregarChofer.txtTelChofer.getText().isEmpty()
+                && !agregarChofer.txtDireccionChofer.getText().isEmpty();
+
+    }
+
+    @Override
+    public void keyTyped(KeyEvent e) {
+    }
+
+    @Override
+    public void keyPressed(KeyEvent e) {
+    }
+
+    @Override
+    public void keyReleased(KeyEvent e) {
+           String titulos[] = {"cédula", "Nombre","Apellido", "Correo", "Teléfono", "Dirección"};
+        modelT = new DefaultTableModel(null, titulos);
+        DataBase bd = new DataBase();
+
+        ResultSet rs;
+
+        try {
+            //bd.ejecutarSqlSelect("select * from bus where placa like '%" + txtFiltro.getText().trim() +"%' OR modelo like '%" + txtFiltro.getText().trim() + "%'");
+            bd.ejecutarSqlSelect("select * from chofer where cedula like '%" + moduloChofer.txtBuscar.getText().trim() +"%' OR nombre like '%" + moduloChofer.txtBuscar.getText().trim() + "%'OR apellido like '%" + moduloChofer.txtBuscar.getText().trim() + "%'");
+            rs = bd.obtenerRegistro();
+            do {
+                chofer = new clsChofer(rs.getString(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getInt(5), rs.getString(6));
+                Object newRow[] = {chofer.getCedula(), chofer.getNombre(), chofer.getApellido(), chofer.getCorreo(), chofer.getTelefono(),chofer.getDireccion()};
+                modelT.addRow(newRow);
+
+            } while (rs.next());
+            moduloChofer.tblChoferes.setModel(modelT);
+            //frmA.lblRegistros.setText("Cantidad de Registros: " + modelT.getRowCount());
+
+        } catch (SQLException ex) {
+            //////
+        }
     }
 
 }
