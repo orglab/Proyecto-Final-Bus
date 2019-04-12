@@ -20,7 +20,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
-import modelo.DataBase;
+import Modelo.DataBase;
 
 /**
  *
@@ -114,7 +114,9 @@ public class ChoferesControlador implements ActionListener, WindowListener, KeyL
         if (e.getSource().equals(moduloChofer.btnEditar)) {
             if (moduloChofer.tblChoferes.getSelectedRowCount() > 0) {
                 agregarChofer.setTitle("Editar Chofer");
+                
                 chofer = modeloChofer.buscarChofer(moduloChofer.tblChoferes.getValueAt(moduloChofer.tblChoferes.getSelectedRow(), 0).toString());
+                
                 agregarChofer.txtCedulaChofer.setText(chofer.getCedula());
                 agregarChofer.txtCedulaChofer.setEnabled(false);
                 agregarChofer.txtNombreChofer.setText(chofer.getNombre());
@@ -122,6 +124,7 @@ public class ChoferesControlador implements ActionListener, WindowListener, KeyL
                 agregarChofer.txtCorreoChofer.setText(chofer.getCorreo());
                 agregarChofer.txtTelChofer.setText(String.valueOf(chofer.getTelefono()));
                 agregarChofer.txtDireccionChofer.setText(chofer.getDireccion());
+                
                 agregarChofer.setVisible(true);
             } else {
                 JOptionPane.showMessageDialog(agregarChofer, "Debe seleccionar al menos una fila para editar");
