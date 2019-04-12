@@ -2,7 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package modelo;
+package Modelo;
 
 import java.sql.*;
 import java.util.logging.Level;
@@ -17,8 +17,8 @@ import javax.swing.JOptionPane;
 public class DataBase {
     private final String base = "autobus";
     private final String user = "root";
-    private final String password = "1234";
-    private final String url = "jdbc:mysql://localhost/"+base;
+    private final String password = "";
+    private final String url = "jdbc:mysql://10.211.55.3/"+base;
     
     private Connection conexion = null;
     private Statement sql;

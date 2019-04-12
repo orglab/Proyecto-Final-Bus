@@ -8,6 +8,9 @@ package Vista;
 import Controlador.ChoferesControlador;
 import JavaBeans.clsChofer;
 import Modelo.ModeloChofer;
+import JavaBeans.clsRuta;
+import Modelo.ModeloRuta;
+import Controlador.RutasControlador;
 import java.awt.Graphics;
 import java.awt.Image;
 import javax.swing.ImageIcon;
@@ -18,10 +21,19 @@ import javax.swing.ImageIcon;
  */
 public class frmPrincipal extends javax.swing.JFrame {
     frmPrincipal principal;
+    
+// frames relacionados con el modulo de Choferes
     frmModuloChofer modChofer = new frmModuloChofer();
     frmAgregarChofer adChofer =  new frmAgregarChofer();
     clsChofer chofer = new clsChofer();
     ModeloChofer modeloChofer = new ModeloChofer();
+    
+    // frames relacionados con el modulo de Rutas
+    frmModuloRuta modRuta = new frmModuloRuta();
+    frmAgregarRuta adRuta = new frmAgregarRuta();
+    clsRuta ruta = new clsRuta();
+    ModeloRuta modeloRuta = new ModeloRuta();
+    
     
     /**
      * Creates new form frmPrincipal
@@ -85,6 +97,11 @@ public class frmPrincipal extends javax.swing.JFrame {
         btnModRutas.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/location.png"))); // NOI18N
         btnModRutas.setText("Módulo de Rutas");
         btnModRutas.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        btnModRutas.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnModRutasActionPerformed(evt);
+            }
+        });
 
         btnSalir.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/log-out.png"))); // NOI18N
         btnSalir.setText("Salir");
@@ -167,6 +184,13 @@ public class frmPrincipal extends javax.swing.JFrame {
         controller.actionPerformed(evt);
         this.principal = controller.moduloPrincipal;
     }//GEN-LAST:event_btnModChoferesActionPerformed
+
+    private void btnModRutasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModRutasActionPerformed
+        // TODO add your handling code here:
+        RutasControlador controller = new RutasControlador(modRuta,this,adRuta, ruta, modeloRuta);
+        controller.actionPerformed(evt);
+        this.principal = controller.moduloPrincipal;
+    }//GEN-LAST:event_btnModRutasActionPerformed
 
     /**
      * @param args the command line arguments
