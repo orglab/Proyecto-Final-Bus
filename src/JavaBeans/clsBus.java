@@ -11,5 +11,6 @@ package JavaBeans;
  */
 public class clsBus {
     private String placa;
+    private String marca;
     
 }
