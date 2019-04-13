@@ -123,6 +123,7 @@ public class ModeloChofer {
             }
 
         } catch (SQLException e) {
+            System.out.println(e);
             return false;
         } finally {
             // cerrar la conexion

@@ -134,7 +134,7 @@ public class ChoferesControlador implements ActionListener, WindowListener, KeyL
             if (moduloChofer.tblChoferes.getSelectedRowCount() > 0) {
                 int opcion = JOptionPane.showConfirmDialog(null, "Está seguro que desea eliminar ese registro ?");
                 if (opcion == 0) {
-                    if (modeloChofer.eliminarChofer(moduloChofer.tblChoferes.getValueAt(moduloChofer.tblChoferes.getSelectedRow(), 0).toString())) {
+                    if (modeloChofer.eliminarChofer(moduloChofer.tblChoferes.getValueAt(moduloChofer.tblChoferes.getSelectedRow(), 1).toString())) {
                         JOptionPane.showMessageDialog(null, "Registro eliminado exitosamente");
                     } else {
                         System.out.println("No Elimnars");

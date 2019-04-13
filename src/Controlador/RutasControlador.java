@@ -133,7 +133,7 @@ public class RutasControlador implements ActionListener, WindowListener, KeyList
             if (moduloRuta.tblDatos.getSelectedRowCount() > 0) {
                 int opcion = JOptionPane.showConfirmDialog(null, "Está seguro que desea eliminar ese registro ?");
                 if (opcion == 0) {
-                    if (modeloRuta.eliminarRuta(Integer.parseInt(moduloRuta.tblDatos.getValueAt(moduloRuta.tblDatos.getSelectedRow(), 0).toString()))) {
+                    if (modeloRuta.eliminarRuta(Integer.parseInt(moduloRuta.tblDatos.getValueAt(moduloRuta.tblDatos.getSelectedRow(), 1).toString()))) {
                         JOptionPane.showMessageDialog(null, "Registro eliminado exitosamente");
                     } else {
                         System.out.println("No Elimnars");
