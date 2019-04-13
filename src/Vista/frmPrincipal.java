@@ -5,12 +5,15 @@
  */
 package Vista;
 
+import Controlador.BusControlador;
 import Controlador.ChoferesControlador;
 import JavaBeans.clsChofer;
 import Modelo.ModeloChofer;
 import JavaBeans.clsRuta;
 import Modelo.ModeloRuta;
 import Controlador.RutasControlador;
+import JavaBeans.clsBus;
+import Modelo.ModeloBus;
 import java.awt.Graphics;
 import java.awt.Image;
 import javax.swing.ImageIcon;
@@ -34,6 +37,11 @@ public class frmPrincipal extends javax.swing.JFrame {
     clsRuta ruta = new clsRuta();
     ModeloRuta modeloRuta = new ModeloRuta();
     
+    //Frames relacionados al Modulo buses
+      frmModuloBuses modBus = new frmModuloBuses();
+    frmAgregarBus adBus =  new frmAgregarBus();
+    clsBus bus = new clsBus();
+    ModeloBus modeloBus = new ModeloBus();
     
     /**
      * Creates new form frmPrincipal
@@ -85,6 +93,11 @@ public class frmPrincipal extends javax.swing.JFrame {
         btnModBuses.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/Bus.png"))); // NOI18N
         btnModBuses.setText("Módulo de Buses");
         btnModBuses.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        btnModBuses.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnModBusesActionPerformed(evt);
+            }
+        });
 
         btnModHorarios.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/calendar.png"))); // NOI18N
         btnModHorarios.setText("Módulo de Horarios");
@@ -191,6 +204,13 @@ public class frmPrincipal extends javax.swing.JFrame {
         controller.actionPerformed(evt);
         this.principal = controller.moduloPrincipal;
     }//GEN-LAST:event_btnModRutasActionPerformed
+
+    private void btnModBusesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModBusesActionPerformed
+        // TODO add your handling code here:
+         BusControlador controller = new BusControlador(modBus, this, adBus, bus, modeloBus);
+        controller.actionPerformed(evt);
+        this.principal = controller.moduloPrincipal;
+    }//GEN-LAST:event_btnModBusesActionPerformed
 
     /**
      * @param args the command line arguments

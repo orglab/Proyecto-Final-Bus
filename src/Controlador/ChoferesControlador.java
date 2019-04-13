@@ -114,9 +114,9 @@ public class ChoferesControlador implements ActionListener, WindowListener, KeyL
         if (e.getSource().equals(moduloChofer.btnEditar)) {
             if (moduloChofer.tblChoferes.getSelectedRowCount() > 0) {
                 agregarChofer.setTitle("Editar Chofer");
-                
+
                 chofer = modeloChofer.buscarChofer(moduloChofer.tblChoferes.getValueAt(moduloChofer.tblChoferes.getSelectedRow(), 0).toString());
-                
+
                 agregarChofer.txtCedulaChofer.setText(chofer.getCedula());
                 agregarChofer.txtCedulaChofer.setEnabled(false);
                 agregarChofer.txtNombreChofer.setText(chofer.getNombre());
@@ -124,7 +124,7 @@ public class ChoferesControlador implements ActionListener, WindowListener, KeyL
                 agregarChofer.txtCorreoChofer.setText(chofer.getCorreo());
                 agregarChofer.txtTelChofer.setText(String.valueOf(chofer.getTelefono()));
                 agregarChofer.txtDireccionChofer.setText(chofer.getDireccion());
-                
+
                 agregarChofer.setVisible(true);
             } else {
                 JOptionPane.showMessageDialog(agregarChofer, "Debe seleccionar al menos una fila para editar");
@@ -226,7 +226,7 @@ public class ChoferesControlador implements ActionListener, WindowListener, KeyL
 
     @Override
     public void keyReleased(KeyEvent e) {
-           String titulos[] = {"cédula", "Nombre","Apellido", "Correo", "Teléfono", "Dirección"};
+        String titulos[] = {"cédula", "Nombre", "Apellido", "Correo", "Teléfono", "Dirección"};
         modelT = new DefaultTableModel(null, titulos);
         DataBase bd = new DataBase();
 
@@ -234,11 +234,11 @@ public class ChoferesControlador implements ActionListener, WindowListener, KeyL
 
         try {
             //bd.ejecutarSqlSelect("select * from bus where placa like '%" + txtFiltro.getText().trim() +"%' OR modelo like '%" + txtFiltro.getText().trim() + "%'");
-            bd.ejecutarSqlSelect("select * from chofer where cedula like '%" + moduloChofer.txtBuscar.getText().trim() +"%' OR nombre like '%" + moduloChofer.txtBuscar.getText().trim() + "%'OR apellido like '%" + moduloChofer.txtBuscar.getText().trim() + "%'");
+            bd.ejecutarSqlSelect("select * from chofer where cedula like '%" + moduloChofer.txtBuscar.getText().trim() + "%' OR nombre like '%" + moduloChofer.txtBuscar.getText().trim() + "%'OR apellido like '%" + moduloChofer.txtBuscar.getText().trim() + "%'");
             rs = bd.obtenerRegistro();
             do {
                 chofer = new clsChofer(rs.getString(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getInt(5), rs.getString(6));
-                Object newRow[] = {chofer.getCedula(), chofer.getNombre(), chofer.getApellido(), chofer.getCorreo(), chofer.getTelefono(),chofer.getDireccion()};
+                Object newRow[] = {chofer.getCedula(), chofer.getNombre(), chofer.getApellido(), chofer.getCorreo(), chofer.getTelefono(), chofer.getDireccion()};
                 modelT.addRow(newRow);
 
             } while (rs.next());

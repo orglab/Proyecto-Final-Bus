@@ -5,17 +5,12 @@
  */
 package Vista;
 
-import JavaBeans.clsChofer;
-import javax.swing.table.DefaultTableModel;
-
 /**
  *
  * @author Manyor
  */
 public class frmModuloBuses extends javax.swing.JFrame {
-    
-    private clsChofer chofer;
-    DefaultTableModel modelT;
+
     /**
      * Creates new form frmChofer2
      */
