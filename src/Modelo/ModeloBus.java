@@ -6,7 +6,6 @@
 package Modelo;
 
 import JavaBeans.clsBus;
-import JavaBeans.clsChofer;
 import java.sql.CallableStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -53,22 +52,22 @@ public class ModeloBus {
         return false;
     }
 
-    public clsChofer buscarBus(String chofer) {
-        clsChofer chfer = new clsChofer();
+    public clsBus buscarBus(String bus) {
+        clsBus autobus = new clsBus();
         Modelo.DataBase bd = new Modelo.DataBase();
         ResultSet rs;
 
         try {
-            bd.ejecutarSqlSelect("SELECT * FROM chofer WHERE cedula = " + chofer + ";");
+            bd.ejecutarSqlSelect("SELECT * FROM bus WHERE idBus = " + bus + ";");
             rs = bd.obtenerRegistro();
             do {
-                chfer = new clsChofer(rs.getString(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getInt(5), rs.getString(6));
+                autobus = new clsBus(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getInt(5), rs.getString(6),rs.getInt(7));
             } while (rs.next());
 
         } catch (SQLException ex) {
             System.out.println(ex);
         }
-        return chfer;
+        return autobus;
     }
 
     public boolean editarBus(clsBus bus) {
@@ -106,15 +105,15 @@ public class ModeloBus {
         return false;
     }
 
-    public boolean eliminarBus(String cedula) {
+    public boolean eliminarBus(String placa) {
 
         Modelo.DataBase bd = new Modelo.DataBase();
         try {
             bd.conectar();
             CallableStatement cst
-                    = bd.getConexion().prepareCall("{call pa_eliminar_chofer(?,?)}");
+                    = bd.getConexion().prepareCall("{call pa_eliminar_Bus(?,?)}");
             // Parametro de entrada del procedimiento almacenado
-            cst.setString(1, cedula);
+            cst.setString(1, placa);
             // Definimos los tipos de los parametros de salida del procedimiento almacenado
             cst.registerOutParameter(2, java.sql.Types.BOOLEAN);
 

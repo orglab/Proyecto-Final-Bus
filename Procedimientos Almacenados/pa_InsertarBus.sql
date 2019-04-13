@@ -1,12 +1,12 @@
 Delimiter $$
-CREATE DEFINER=`root`@`localhost` PROCEDURE `pa_insertar_bus`(
+CREATE DEFINER=`root`@`local` PROCEDURE `pa_insertar_bus`(
 	IN p_idBus int(11),
 	IN p_placa varchar(7),
 	IN p_marca varchar(20), 
 	IN p_modelo varchar(20), 
 	IN p_anio int(4),
-  IN p_chofer varchar(20),
-  IN p_capacidad int(2),
+	IN p_chofer varchar(20),
+	IN p_capacidad int(2),
 	OUT success boolean
 
 	)
