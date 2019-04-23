@@ -103,7 +103,7 @@ public class BusControlador implements ActionListener, WindowListener, KeyListen
             } else {
                 //Editar CHofer
                 modeloBus.editarBus(bus);
-                JOptionPane.showMessageDialog(agregarBus, "Bus Editado");
+                JOptionPane.showMessageDialog(agregarBus, "Bus agrado con exito");
             }
         }
         // Acción para el botón que limpia  la pantalla en el form agregarchofer. 
@@ -129,7 +129,7 @@ public class BusControlador implements ActionListener, WindowListener, KeyListen
                 agregarBus.txtAnio.setText(String.valueOf(bus.getAnnio()));
                 agregarBus.cmbChoferBus.setSelectedItem(String.valueOf(bus.getChofer()));
                 agregarBus.txtCapacidad.setText(String.valueOf(bus.getCapacidad()));
-
+                cargarComboBus();
                 agregarBus.setVisible(true);
             } else {
                 JOptionPane.showMessageDialog(agregarBus, "Debe seleccionar al menos una fila para editar");
