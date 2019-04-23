@@ -7,6 +7,7 @@ package Vista;
 
 import Controlador.BusControlador;
 import Controlador.ChoferesControlador;
+import Controlador.ControladorHorariosRuta;
 import JavaBeans.clsChofer;
 import Modelo.ModeloChofer;
 import JavaBeans.clsRuta;
@@ -14,6 +15,7 @@ import Modelo.ModeloRuta;
 import Controlador.RutasControlador;
 import JavaBeans.clsBus;
 import Modelo.ModeloBus;
+import Modelo.ModeloHorariosRuta;
 import java.awt.Graphics;
 import java.awt.Image;
 import javax.swing.ImageIcon;
@@ -23,31 +25,38 @@ import javax.swing.ImageIcon;
  * @author JJGB
  */
 public class frmPrincipal extends javax.swing.JFrame {
+
     frmPrincipal principal;
-    
+
+    //Frames relacionados a los horarios
+    frmHorariosRutas horaRutas = new frmHorariosRutas();;
+    ControladorHorariosRuta controladorHorarioRuta;
+    ModeloHorariosRuta modeloHorarioRuta= new ModeloHorariosRuta();
+
 // frames relacionados con el modulo de Choferes
     frmModuloChofer modChofer = new frmModuloChofer();
-    frmAgregarChofer adChofer =  new frmAgregarChofer();
+    frmAgregarChofer adChofer = new frmAgregarChofer();
     clsChofer chofer = new clsChofer();
     ModeloChofer modeloChofer = new ModeloChofer();
-    
+
     // frames relacionados con el modulo de Rutas
     frmModuloRuta modRuta = new frmModuloRuta();
     frmAgregarRuta adRuta = new frmAgregarRuta();
     clsRuta ruta = new clsRuta();
     ModeloRuta modeloRuta = new ModeloRuta();
-    
+
     //Frames relacionados al Modulo buses
-      frmModuloBuses modBus = new frmModuloBuses();
-    frmAgregarBus adBus =  new frmAgregarBus();
+    frmModuloBuses modBus = new frmModuloBuses();
+    frmAgregarBus adBus = new frmAgregarBus();
     clsBus bus = new clsBus();
     ModeloBus modeloBus = new ModeloBus();
-    
+
     /**
      * Creates new form frmPrincipal
      */
     public frmPrincipal() {
         initComponents();
+   
     }
 
     /**
@@ -102,6 +111,11 @@ public class frmPrincipal extends javax.swing.JFrame {
         btnModHorarios.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/calendar.png"))); // NOI18N
         btnModHorarios.setText("Módulo de Horarios");
         btnModHorarios.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        btnModHorarios.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnModHorariosActionPerformed(evt);
+            }
+        });
 
         btnBoleteria.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/ticket-office.png"))); // NOI18N
         btnBoleteria.setText("Boletería");
@@ -193,24 +207,31 @@ public class frmPrincipal extends javax.swing.JFrame {
 
     private void btnModChoferesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModChoferesActionPerformed
         // TODO add your handling code here:
-        ChoferesControlador controller = new ChoferesControlador(modChofer,this,adChofer, chofer, modeloChofer);
+        ChoferesControlador controller = new ChoferesControlador(modChofer, this, adChofer, chofer, modeloChofer);
         controller.actionPerformed(evt);
         this.principal = controller.moduloPrincipal;
     }//GEN-LAST:event_btnModChoferesActionPerformed
 
     private void btnModRutasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModRutasActionPerformed
         // TODO add your handling code here:
-        RutasControlador controller = new RutasControlador(modRuta,this,adRuta, ruta, modeloRuta);
+        RutasControlador controller = new RutasControlador(modRuta, this, adRuta, ruta, modeloRuta);
         controller.actionPerformed(evt);
         this.principal = controller.moduloPrincipal;
     }//GEN-LAST:event_btnModRutasActionPerformed
 
     private void btnModBusesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModBusesActionPerformed
         // TODO add your handling code here:
-         BusControlador controller = new BusControlador(modBus, this, adBus, bus, modeloBus);
+        BusControlador controller = new BusControlador(modBus, this, adBus, bus, modeloBus);
         controller.actionPerformed(evt);
         this.principal = controller.moduloPrincipal;
     }//GEN-LAST:event_btnModBusesActionPerformed
+
+    private void btnModHorariosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModHorariosActionPerformed
+        // TODO add your handling code here:
+        controladorHorarioRuta = new ControladorHorariosRuta(horaRutas, modeloHorarioRuta,this);
+        controladorHorarioRuta.actionPerformed(evt);
+        
+    }//GEN-LAST:event_btnModHorariosActionPerformed
 
     /**
      * @param args the command line arguments

@@ -112,7 +112,7 @@ public class ChoferesControlador implements ActionListener, WindowListener, KeyL
         }
 
         if (e.getSource().equals(moduloChofer.btnEditar)) {
-            if (moduloChofer.tblChoferes.getSelectedRowCount() > 0) {
+            if (moduloChofer.tblChoferes.getSelectedRow() != -1) {
                 agregarChofer.setTitle("Editar Chofer");
 
                 chofer = modeloChofer.buscarChofer(moduloChofer.tblChoferes.getValueAt(moduloChofer.tblChoferes.getSelectedRow(), 0).toString());
@@ -131,20 +131,20 @@ public class ChoferesControlador implements ActionListener, WindowListener, KeyL
             }
         }
         if (e.getSource().equals(moduloChofer.btnEliminar)) {
-            if (moduloChofer.tblChoferes.getSelectedRowCount() > 0) {
+            if (moduloChofer.tblChoferes.getSelectedRow() != -1) {
                 int opcion = JOptionPane.showConfirmDialog(null, "Está seguro que desea eliminar ese registro ?");
                 if (opcion == 0) {
-                    if (modeloChofer.eliminarChofer(moduloChofer.tblChoferes.getValueAt(moduloChofer.tblChoferes.getSelectedRow(), 1).toString())) {
+                    if (modeloChofer.eliminarChofer(moduloChofer.tblChoferes.getValueAt(moduloChofer.tblChoferes.getSelectedRow(), 0).toString())) {
                         JOptionPane.showMessageDialog(null, "Registro eliminado exitosamente");
                     } else {
                         System.out.println("No Elimnars");
                     }
-                } else {
-                    JOptionPane.showMessageDialog(agregarChofer, "Debe seleccionar al menos una fila para eliminar");
+
                 }
+            } else {
+                JOptionPane.showMessageDialog(agregarChofer, "Debe seleccionar al menos una fila para eliminar");
             }
         }
-
     }
 
     @Override
