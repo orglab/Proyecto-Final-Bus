@@ -80,7 +80,7 @@ public class RutasControlador implements ActionListener, WindowListener, KeyList
             if (validarTexto()) {
                 ruta.setIdruta(Integer.parseInt(agregarRuta.txtIdRuta.getText()));
                 ruta.setLugarSalida(agregarRuta.txtLugarSalida.getText());
-               ruta.setLugarDestino(agregarRuta.txtLugarDestino.getText());
+                ruta.setLugarDestino(agregarRuta.txtLugarDestino.getText());
                 ruta.setPrecio(Float.parseFloat(agregarRuta.txtPrecio.getText()));
                 ruta.setAsientos_disponibles(Integer.parseInt(agregarRuta.txtAsientosDisp.getText()));
             } else {
@@ -114,16 +114,16 @@ public class RutasControlador implements ActionListener, WindowListener, KeyList
         if (e.getSource().equals(moduloRuta.btnEditar)) {
             if (moduloRuta.tblDatos.getSelectedRowCount() > 0) {
                 agregarRuta.setTitle("Editar Ruta");
-                
+
                 ruta = modeloRuta.buscarRuta(moduloRuta.tblDatos.getValueAt(moduloRuta.tblDatos.getSelectedRow(), 0).toString());
-                
+
                 agregarRuta.txtIdRuta.setText(String.valueOf(ruta.getIdruta()));
                 agregarRuta.txtIdRuta.setEnabled(false);
                 agregarRuta.txtLugarSalida.setText(ruta.getLugarSalida());
                 agregarRuta.txtLugarDestino.setText(ruta.getLugarDestino());
                 agregarRuta.txtPrecio.setText(String.valueOf(ruta.getPrecio()));
                 agregarRuta.txtAsientosDisp.setText(String.valueOf(ruta.getAsientos_disponibles()));
-                
+
                 agregarRuta.setVisible(true);
             } else {
                 JOptionPane.showMessageDialog(agregarRuta, "Debe seleccionar al menos una fila para editar");
@@ -149,7 +149,7 @@ public class RutasControlador implements ActionListener, WindowListener, KeyList
     @Override
     public void windowActivated(WindowEvent we
     ) {
-        String titulos[] = {"ID Ruta", "Lugar Salida", "Lugar Destino", "Precio", "Asientos Disponibles"};
+        String titulos[] = {"ID Ruta", "Lugar Salida", "Lugar Destino", "Precio","Placa Bus", "Asientos Disponibles"};
         modelT = new DefaultTableModel(null, titulos);
         DataBase bd = new DataBase();
 
@@ -159,15 +159,14 @@ public class RutasControlador implements ActionListener, WindowListener, KeyList
             bd.ejecutarSqlSelect("select * from ruta");
             rs = bd.obtenerRegistro();
             do {
-                ruta = new clsRuta(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getFloat(4), rs.getInt(5));
-                Object newRow[] = {ruta.getIdruta(), ruta.getLugarSalida(), ruta.getLugarDestino(), ruta.getPrecio(), ruta.getAsientos_disponibles()};
-                modelT.addRow(newRow);
+                modelT.addRow(new Object[]{rs.getInt(1), rs.getString(2), rs.getString(3), rs.getFloat(4), rs.getString(5),rs.getInt(6)});
 
             } while (rs.next());
             moduloRuta.tblDatos.setModel(modelT);
             //moduloChofer.lblRegistros.setText("Cantidad de Registros: " + modelT.getRowCount());
 
         } catch (SQLException ex) {
+            System.out.println(ex);
         }
     }
 
@@ -222,14 +221,14 @@ public class RutasControlador implements ActionListener, WindowListener, KeyList
 
     @Override
     public void keyReleased(KeyEvent e) {
-           String titulos[] = {"ID Ruta", "Lugar Salida", "Lugar Destino", "Precio", "Asientos Disponibles"};
+        String titulos[] = {"ID Ruta", "Lugar Salida", "Lugar Destino", "Precio", "Asientos Disponibles"};
         modelT = new DefaultTableModel(null, titulos);
         DataBase bd = new DataBase();
 
         ResultSet rs;
 
         try {
-            bd.ejecutarSqlSelect("select * from ruta where idruta like '%" + moduloRuta.txtBuscar.getText().trim() +"%' OR precio like '%" + moduloRuta.txtBuscar.getText().trim() + "%'");
+            bd.ejecutarSqlSelect("select * from ruta where idruta like '%" + moduloRuta.txtBuscar.getText().trim() + "%' OR precio like '%" + moduloRuta.txtBuscar.getText().trim() + "%'");
             rs = bd.obtenerRegistro();
             do {
                 ruta = new clsRuta(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getFloat(4), rs.getInt(5));
