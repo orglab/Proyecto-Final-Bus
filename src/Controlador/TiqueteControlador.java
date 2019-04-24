@@ -76,7 +76,6 @@ public class TiqueteControlador implements ActionListener, WindowListener, KeyLi
 
         if (e.getSource().equals(moduloBoleteria.cmbRuta)) {
             if (moduloBoleteria.cmbRuta.getSelectedIndex() > 0) {
-<<<<<<< HEAD
                 String idruta[] = moduloBoleteria.cmbRuta.getSelectedItem().toString().split("-");
                 try {
                     cargarComboHorarios(idruta[0]);
@@ -84,12 +83,6 @@ public class TiqueteControlador implements ActionListener, WindowListener, KeyLi
                     Logger.getLogger(TiqueteControlador.class.getName()).log(Level.SEVERE, null, ex);
                 }
                 cargaPrecio(idruta[0]);
-=======
-
-                String idruta[] = moduloBoleteria.cmbRuta.getSelectedItem().toString().split("-");
-                moduloBoleteria.txtPrecio.setText(idruta[0]);
-                cargarComboHorarios(idruta[0]);
->>>>>>> featureModalTiquetes
             }
         }
 
@@ -215,13 +208,10 @@ public class TiqueteControlador implements ActionListener, WindowListener, KeyLi
             rs = bd.obtenerRegistro();
             do {
                 cmbModel.addElement(rs.getInt(1) + "- " + rs.getString(2) + "- " + rs.getString(3));
-<<<<<<< HEAD
-               } while (rs.next());
-=======
                 moduloBoleteria.txtPrecio.setEditable(false);
                 moduloBoleteria.txtPrecio.setText(String.valueOf(rs.getFloat(4)));
             } while (rs.next());
->>>>>>> featureModalTiquetes
+
             moduloBoleteria.cmbRuta.setModel(cmbModel);
 
         } catch (SQLException ex) {
