@@ -13,9 +13,12 @@ import Modelo.ModeloChofer;
 import JavaBeans.clsRuta;
 import Modelo.ModeloRuta;
 import Controlador.RutasControlador;
+import Controlador.TiqueteControlador;
 import JavaBeans.clsBus;
+import JavaBeans.clsTiquete;
 import Modelo.ModeloBus;
 import Modelo.ModeloHorariosRuta;
+import Modelo.ModeloTiquete;
 import java.awt.Graphics;
 import java.awt.Image;
 import javax.swing.ImageIcon;
@@ -27,9 +30,15 @@ import javax.swing.ImageIcon;
 public class frmPrincipal extends javax.swing.JFrame {
 
     frmPrincipal principal;
+    
+    //Frames relacionados a la boleteria
+    frmBoleteria frameBoleteria = new frmBoleteria(this, true);
+    TiqueteControlador controladorTiquete;
+    clsTiquete tiquete = new clsTiquete();
+    ModeloTiquete modeloTiquete = new ModeloTiquete();
 
     //Frames relacionados a los horarios
-    frmHorariosRutas horaRutas = new frmHorariosRutas();;
+    frmHorariosRutas horaRutas = new frmHorariosRutas();
     ControladorHorariosRuta controladorHorarioRuta;
     ModeloHorariosRuta modeloHorarioRuta= new ModeloHorariosRuta();
 
@@ -87,6 +96,7 @@ public class frmPrincipal extends javax.swing.JFrame {
         };
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("AUTOBUSES LIBERIA");
 
         jPanel1.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
@@ -120,6 +130,11 @@ public class frmPrincipal extends javax.swing.JFrame {
         btnBoleteria.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/ticket-office.png"))); // NOI18N
         btnBoleteria.setText("Boletería");
         btnBoleteria.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        btnBoleteria.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnBoleteriaActionPerformed(evt);
+            }
+        });
 
         btnModRutas.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/location.png"))); // NOI18N
         btnModRutas.setText("Módulo de Rutas");
@@ -133,6 +148,11 @@ public class frmPrincipal extends javax.swing.JFrame {
         btnSalir.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/log-out.png"))); // NOI18N
         btnSalir.setText("Salir");
         btnSalir.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        btnSalir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSalirActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -226,12 +246,24 @@ public class frmPrincipal extends javax.swing.JFrame {
         this.principal = controller.moduloPrincipal;
     }//GEN-LAST:event_btnModBusesActionPerformed
 
+
     private void btnModHorariosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModHorariosActionPerformed
         // TODO add your handling code here:
         controladorHorarioRuta = new ControladorHorariosRuta(horaRutas, modeloHorarioRuta,this);
         controladorHorarioRuta.actionPerformed(evt);
         
     }//GEN-LAST:event_btnModHorariosActionPerformed
+
+    private void btnSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalirActionPerformed
+        dispose();
+    }//GEN-LAST:event_btnSalirActionPerformed
+
+    private void btnBoleteriaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBoleteriaActionPerformed
+        // TODO add your handling code here:
+        controladorTiquete = new TiqueteControlador(frameBoleteria, this,tiquete, modeloTiquete);
+        controladorTiquete.actionPerformed(evt);
+    }//GEN-LAST:event_btnBoleteriaActionPerformed
+
 
     /**
      * @param args the command line arguments

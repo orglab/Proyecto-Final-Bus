@@ -3,6 +3,7 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
+<<<<<<< Updated upstream
             <file>file:/C:/Users/Manyor/Desktop/Proyecto-Final-Bus/src/Vista/frmPrincipal.java</file>
             <file>file:/C:/Users/Manyor/Desktop/Proyecto-Final-Bus/src/Vista/frmAgregarBus.java</file>
             <file>file:/C:/Users/Manyor/Desktop/Proyecto-Final-Bus/src/Controlador/ControladorHorariosRuta.java</file>
@@ -12,6 +13,16 @@
             <file>file:/C:/Users/Manyor/Desktop/Proyecto-Final-Bus/src/Vista/frmAgregarChofer.java</file>
             <file>file:/C:/Users/Manyor/Desktop/Proyecto-Final-Bus/src/JavaBeans/clsRuta.java</file>
             <file>file:/C:/Users/Manyor/Desktop/Proyecto-Final-Bus/src/Modelo/ModeloChofer.java</file>
+<<<<<<< HEAD
+=======
+            <file>file:/Users/JJGB/NetBeansProjects/AutoBuses%20Project/AutoBuses%20Project/src/Vista/frmAgregarBus.java</file>
+            <file>file:/Users/JJGB/NetBeansProjects/AutoBuses%20Project/AutoBuses%20Project/src/Controlador/RutasControlador.java</file>
+            <file>file:/Users/JJGB/NetBeansProjects/AutoBuses%20Project/AutoBuses%20Project/src/Vista/frmPrincipal.java</file>
+            <file>file:/Users/JJGB/NetBeansProjects/AutoBuses%20Project/AutoBuses%20Project/src/Controlador/BusControlador.java</file>
+            <file>file:/Users/JJGB/NetBeansProjects/AutoBuses%20Project/AutoBuses%20Project/src/Vista/frmAgregarChofer.java</file>
+            <file>file:/Users/JJGB/NetBeansProjects/AutoBuses%20Project/AutoBuses%20Project/src/Controlador/ChoferesControlador.java</file>
+>>>>>>> Stashed changes
+=======
             <file>file:/C:/Users/Manyor/Desktop/Proyecto-Final-Bus/src/Modelo/ModeloBus.java</file>
             <file>file:/C:/Users/Manyor/Desktop/Proyecto-Final-Bus/src/Controlador/RutasControlador.java</file>
             <file>file:/C:/Users/Manyor/Desktop/Proyecto-Final-Bus/src/Modelo/ModeloHorariosRuta.java</file>
@@ -20,6 +31,7 @@
             <file>file:/C:/Users/Manyor/Desktop/Proyecto-Final-Bus/src/Vista/frmModuloRuta.java</file>
             <file>file:/C:/Users/Manyor/Desktop/Proyecto-Final-Bus/src/Vista/frmHorariosRutas.java</file>
             <file>file:/C:/Users/Manyor/Desktop/Proyecto-Final-Bus/src/Controlador/BusControlador.java</file>
+>>>>>>> master
         </group>
     </open-files>
 </project-private>
