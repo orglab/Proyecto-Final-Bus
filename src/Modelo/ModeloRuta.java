@@ -37,10 +37,11 @@ public class ModeloRuta {
             cst.execute();
 
             if (cst.getBoolean(6)) {
-                return true;
+                       return true;
             }
 
         } catch (SQLException e) {
+            System.out.println(e);
             return false;
         } finally {
             // cerrar la conexion
@@ -120,6 +121,7 @@ public class ModeloRuta {
             }
 
         } catch (SQLException e) {
+            System.out.println(e);
             return false;
         } finally {
             // cerrar la conexion

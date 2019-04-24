@@ -6,8 +6,10 @@
 package Controlador;
 
 import JavaBeans.clsBus;
+import JavaBeans.clsChofer;
 import Modelo.DataBase;
 import Modelo.ModeloBus;
+import Modelo.ModeloChofer;
 import Vista.frmAgregarBus;
 import Vista.frmModuloBuses;
 import Vista.frmModuloChofer;
@@ -70,8 +72,9 @@ public class BusControlador implements ActionListener, WindowListener, KeyListen
         // Acción para el botón que abre el módulo del agregar chofer. 
         if (e.getSource() == moduloBus.btnAgregar) {
             agregarBus.setVisible(true);
-            agregarBus.setTitle("AgregarBus");
+            agregarBus.setTitle("Agregar Bus");
             agregarBus.txtId.setText(String.valueOf(moduloBus.tblDatos.getModel().getRowCount() + 1));
+            limpiarVistaNuevo();
             cargarComboBus();
 
         }
@@ -86,25 +89,32 @@ public class BusControlador implements ActionListener, WindowListener, KeyListen
                 bus.setAnnio(Integer.parseInt(agregarBus.txtAnio.getText()));
                 bus.setChofer(parts[0]);
                 bus.setCapacidad(Integer.parseInt(agregarBus.txtCapacidad.getText()));
+                if (agregarBus.getTitle().equals("Agregar Bus")) {
+                    //Agregar chofer
+                    if (modeloBus.insertarBus(bus)) {
+                        JOptionPane.showMessageDialog(agregarBus, "Bus Registrado");
+                        cargarComboBus();
+                        limpiarVistaNuevo();
+                    } else {
+                        JOptionPane.showMessageDialog(agregarBus, "Error al guardar");
+                    }
+                } else {
+                    //Editar CHofer
+                    if (modeloBus.editarBus(bus)) {
+                        JOptionPane.showMessageDialog(agregarBus, "Bus guardado con exito");
+                        agregarBus.dispose();
+
+                    } else {
+                        JOptionPane.showMessageDialog(agregarBus, "Error al guardar");
+                    }
+
+                }
+
             } else {
                 JOptionPane.showMessageDialog(agregarBus, "Debe completar los campos solicitados");
 
             }
 
-            if (agregarBus.getTitle().equals("AgregarBus")) {
-                //Agregar chofer
-                if (modeloBus.insertarBus(bus)) {
-                    JOptionPane.showMessageDialog(agregarBus, "Bus Registrado");
-                    cargarComboBus();
-                    limpiarVistaNuevo();
-                } else {
-                    JOptionPane.showMessageDialog(agregarBus, "Error al guardar");
-                }
-            } else {
-                //Editar CHofer
-                modeloBus.editarBus(bus);
-                JOptionPane.showMessageDialog(agregarBus, "Bus Editado");
-            }
         }
         // Acción para el botón que limpia  la pantalla en el form agregarchofer. 
         if (e.getSource() == agregarBus.btnLimpiar) {
@@ -127,9 +137,8 @@ public class BusControlador implements ActionListener, WindowListener, KeyListen
                 agregarBus.txtMarca.setText(bus.getMarca());
                 agregarBus.txtModelo.setText(bus.getModelo());
                 agregarBus.txtAnio.setText(String.valueOf(bus.getAnnio()));
-                agregarBus.cmbChoferBus.setSelectedItem(String.valueOf(bus.getChofer()));
                 agregarBus.txtCapacidad.setText(String.valueOf(bus.getCapacidad()));
-
+                cargarComboBus();
                 agregarBus.setVisible(true);
             } else {
                 JOptionPane.showMessageDialog(agregarBus, "Debe seleccionar al menos una fila para editar");
@@ -144,9 +153,9 @@ public class BusControlador implements ActionListener, WindowListener, KeyListen
                     } else {
                         System.out.println("No Elimnars");
                     }
-                } else {
-                    JOptionPane.showMessageDialog(agregarBus, "Debe seleccionar al menos una fila para eliminar");
                 }
+            } else {
+                JOptionPane.showMessageDialog(agregarBus, "Debe seleccionar al menos una fila para eliminar");
             }
         }
 
@@ -185,7 +194,6 @@ public class BusControlador implements ActionListener, WindowListener, KeyListen
         DataBase bd = new DataBase();
 
         ResultSet rs;
-
         try {
             bd.ejecutarSqlSelect("select * from bus");
             rs = bd.obtenerRegistro();
@@ -199,6 +207,7 @@ public class BusControlador implements ActionListener, WindowListener, KeyListen
 
         } catch (SQLException ex) {
             System.out.println(ex);
+            moduloBus.tblDatos.setModel(modelT);
         }
 
     }
@@ -227,20 +236,18 @@ public class BusControlador implements ActionListener, WindowListener, KeyListen
         ResultSet rs;
 
         try {
-            //bd.ejecutarSqlSelect("select * from bus where placa like '%" + txtFiltro.getText().trim() +"%' OR modelo like '%" + txtFiltro.getText().trim() + "%'");
             bd.ejecutarSqlSelect("select * from bus where idBus like '%" + moduloBus.txtBuscar.getText().trim() + "%' OR placa like '%" + moduloBus.txtBuscar.getText().trim() + "%'OR chofer like '%" + moduloBus.txtBuscar.getText().trim() + "%'");
             rs = bd.obtenerRegistro();
             do {
-                 bus = new clsBus(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getInt(5), rs.getString(6), rs.getInt(7));
+                bus = new clsBus(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getInt(5), rs.getString(6), rs.getInt(7));
                 Object newRow[] = {bus.getIdBus(), bus.getPlaca(), bus.getMarca(), bus.getModelo(), bus.getAnnio(), bus.getChofer(), bus.getCapacidad()};
                 modelT.addRow(newRow);
 
             } while (rs.next());
             moduloBus.tblDatos.setModel(modelT);
-            //frmA.lblRegistros.setText("Cantidad de Registros: " + modelT.getRowCount());
 
         } catch (SQLException ex) {
-            //////
+
         }
     }
 
@@ -253,18 +260,30 @@ public class BusControlador implements ActionListener, WindowListener, KeyListen
     }
 
     public void limpiarVistaNuevo() {
-        agregarBus.txtMarca.setText(null);
+        if (agregarBus.getTitle().equals("Agregar Bus")) {
+            agregarBus.txtPlaca.setText(null);
+            agregarBus.txtPlaca.setEnabled(true);
+        }
+
         agregarBus.txtModelo.setText(null);
         agregarBus.txtAnio.setText(null);
         agregarBus.txtCapacidad.setText(null);
-        agregarBus.txtPlaca.setText(null);
+        agregarBus.txtMarca.setText(null);
         agregarBus.cmbChoferBus.setSelectedItem(0);
     }
 
     private void cargarComboBus() {
         DefaultComboBoxModel cmbModel = new DefaultComboBoxModel();
         DataBase bd = new DataBase();
-        cmbModel.addElement("Seleccionar.....");
+
+        if (!agregarBus.getTitle().equals("Editar Bus")) {
+            cmbModel.addElement("Seleccionar.....");
+        } else {
+            ModeloChofer modeloChofer = new ModeloChofer();
+            clsChofer chfer;
+            chfer = modeloChofer.buscarChofer(moduloBus.tblDatos.getValueAt(moduloBus.tblDatos.getSelectedRow(), 5).toString());
+            cmbModel.addElement(chfer.getCedula() + " " + chfer.getNombre());
+        }
 
         ResultSet rs;
 
@@ -278,9 +297,12 @@ public class BusControlador implements ActionListener, WindowListener, KeyListen
             //moduloChofer.lblRegistros.setText("Cantidad de Registros: " + modelT.getRowCount());
 
         } catch (SQLException ex) {
-            cmbModel.removeAllElements();
-            cmbModel.addElement("No hay choferes disponibles");
-           agregarBus.cmbChoferBus.setModel(cmbModel);
+
+            if (!agregarBus.getTitle().equals("Editar Bus")) {
+                cmbModel.removeAllElements();
+                cmbModel.addElement("No hay choferes disponibles");
+            }
+            agregarBus.cmbChoferBus.setModel(cmbModel);
         }
     }
 

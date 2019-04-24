@@ -1,4 +1,3 @@
-use 'clinica-db'
 
 DELIMITER //
 CREATE PROCEDURE pa_editar_chofer
@@ -22,7 +21,7 @@ WHERE cedula = p_cedula;
 set success = true;
 ELSE 
 
-SELECT 'Este numero de cÃ©dula de chofer no existe en la base de datos!';
+SELECT 'Este numero de cédula de chofer no existe en la base de datos!';
 
 set success = false;
 END IF; 
