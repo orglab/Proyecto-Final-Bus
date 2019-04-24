@@ -32,6 +32,8 @@ public class ControladorHorariosRuta implements ActionListener, WindowListener {
     frmPrincipal principal;
 
     public ControladorHorariosRuta(frmHorariosRutas rutasVista, ModeloHorariosRuta modeloHoraRta, frmPrincipal prin) {
+        
+        // Botones mapeados para el la vista de los horarios
         this.frmhorariosRutas = rutasVista;
         this.modeloHorariosRuta = modeloHoraRta;
         this.principal = prin;

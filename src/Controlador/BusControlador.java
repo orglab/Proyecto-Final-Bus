@@ -47,7 +47,7 @@ public class BusControlador implements ActionListener, WindowListener, KeyListen
         this.bus = bus;
         this.modeloBus = modelBus;
 
-        //Listener de la  de choferes
+        
         //Listener para los Botones mapeados en la vista
         this.moduloPrincipal.btnModChoferes.addActionListener(this);
         // Botones mapeados para el la vista del chofer
@@ -57,7 +57,7 @@ public class BusControlador implements ActionListener, WindowListener, KeyListen
         this.moduloBus.addWindowListener(this);
         this.moduloBus.txtBuscar.addKeyListener(this);
 
-        //Botones mapeados con Listener modulo Agregar Chofer Vista
+        //Botones mapeados con Listener modulo Agregar bus Vista
         this.agregarBus.btnGuardar.addActionListener(this);
         this.agregarBus.btnCancelar.addActionListener(this);
         this.agregarBus.btnLimpiar.addActionListener(this);

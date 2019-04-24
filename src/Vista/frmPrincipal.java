@@ -4,7 +4,7 @@
  * and open the template in the editor.
  */
 package Vista;
-
+import javax.swing.ImageIcon;
 import Controlador.BusControlador;
 import Controlador.ChoferesControlador;
 import Controlador.ControladorHorariosRuta;
@@ -21,6 +21,7 @@ import Modelo.ModeloHorariosRuta;
 import Modelo.ModeloTiquete;
 import java.awt.Graphics;
 import java.awt.Image;
+import java.awt.Toolkit;
 import javax.swing.ImageIcon;
 
 /**
@@ -30,12 +31,13 @@ import javax.swing.ImageIcon;
 public class frmPrincipal extends javax.swing.JFrame {
 
     frmPrincipal principal;
-    
+     
     //Frames relacionados a la boleteria
     frmBoleteria frameBoleteria = new frmBoleteria(this, true);
     TiqueteControlador controladorTiquete;
     clsTiquete tiquete = new clsTiquete();
     ModeloTiquete modeloTiquete = new ModeloTiquete();
+    frmVistaTiquetes frameVistaTiq = new frmVistaTiquetes(this, true);
 
     //Frames relacionados a los horarios
     frmHorariosRutas horaRutas = new frmHorariosRutas();
@@ -65,7 +67,8 @@ public class frmPrincipal extends javax.swing.JFrame {
      */
     public frmPrincipal() {
         initComponents();
-        controladorTiquete = new TiqueteControlador(frameBoleteria, this,tiquete, modeloTiquete);
+        controladorTiquete = new TiqueteControlador(frameBoleteria, this,tiquete, modeloTiquete,frameVistaTiq);
+        setIcon();
    
     }
 
@@ -98,6 +101,8 @@ public class frmPrincipal extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("AUTOBUSES LIBERIA");
+        setIconImages(null);
+        setResizable(false);
 
         jPanel1.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
@@ -298,6 +303,9 @@ public class frmPrincipal extends javax.swing.JFrame {
                 new frmPrincipal().setVisible(true);
             }
         });
+    }
+    private void setIcon(){
+        setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("/img/school-bus.png")));
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

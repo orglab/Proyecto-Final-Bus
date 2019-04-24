@@ -10,6 +10,7 @@ import Modelo.DataBase;
 import Modelo.ModeloTiquete;
 import Vista.frmBoleteria;
 import Vista.frmPrincipal;
+import Vista.frmVistaTiquetes;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
@@ -28,6 +29,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -39,14 +41,17 @@ public class TiqueteControlador implements ActionListener, WindowListener, KeyLi
     public frmPrincipal moduloPrincipal;
     private clsTiquete tiquete;
     private ModeloTiquete modeloTiquete;
+    private frmVistaTiquetes moduloVistaTiquetes;
+    
+   DefaultTableModel modelT;
 
-    public TiqueteControlador(frmBoleteria modBoleteria, frmPrincipal modPrincipal, clsTiquete tiquet, ModeloTiquete modeloTiquet) {
+    public TiqueteControlador(frmBoleteria modBoleteria, frmPrincipal modPrincipal, clsTiquete tiquet, ModeloTiquete modeloTiquet,frmVistaTiquetes moduloVistaTiquet) {
         this.moduloPrincipal = modPrincipal;
         this.moduloBoleteria = modBoleteria;
         this.tiquete = tiquet;
         this.modeloTiquete = modeloTiquet;
+        this.moduloVistaTiquetes = moduloVistaTiquet;
 
-        //Listener de la  de choferes
         //Listener para los Botones mapeados en la vista
         this.moduloPrincipal.btnBoleteria.addActionListener(this);
 
@@ -58,6 +63,9 @@ public class TiqueteControlador implements ActionListener, WindowListener, KeyLi
         this.moduloBoleteria.cmbHora.addActionListener(this);
         this.moduloBoleteria.addWindowListener(this);
         this.moduloBoleteria.txtNumAsiento.addKeyListener(this);
+        this.moduloBoleteria.btnTiquetesVend.addActionListener(this);
+        this.moduloVistaTiquetes.addWindowListener(this);
+        
 
     }
 
@@ -117,6 +125,10 @@ public class TiqueteControlador implements ActionListener, WindowListener, KeyLi
             }
 
         }
+        if (e.getSource().equals(moduloBoleteria.btnTiquetesVend)) {
+            modeloTiquete.mostrarTiquetesVendidos();
+            moduloVistaTiquetes.setVisible(true);
+        }
 
         if (e.getSource() == moduloBoleteria.btnCancelar) {
             moduloBoleteria.dispose();
@@ -171,6 +183,7 @@ public class TiqueteControlador implements ActionListener, WindowListener, KeyLi
         } catch (SQLException ex) {
             System.out.println(ex);
         }
+        moduloVistaTiquetes.tblDatosTiquetes.setModel(modeloTiquete.mostrarTiquetesVendidos());
     }
 
     @Override
@@ -219,7 +232,7 @@ public class TiqueteControlador implements ActionListener, WindowListener, KeyLi
             cmbModel.addElement("No hay rutas disponibles");
             moduloBoleteria.cmbRuta.setModel(cmbModel);
         }
-    }
+    } 
 
     private void cargarComboHorarios(String str) throws ParseException {
         DefaultComboBoxModel cmbModel = new DefaultComboBoxModel();
@@ -232,7 +245,7 @@ public class TiqueteControlador implements ActionListener, WindowListener, KeyLi
             rs = bd.obtenerRegistro();
             do {
                 String dat[] = rs.getString(2).split(" ");
-                cmbModel.addElement(rs.getInt(1) + "- " + dat[1]);
+                cmbModel.addElement(rs.getInt(1) + "- " + dat[0]);
             } while (rs.next());
             moduloBoleteria.cmbHora.setModel(cmbModel);
 
@@ -285,4 +298,5 @@ public class TiqueteControlador implements ActionListener, WindowListener, KeyLi
             System.out.println(ex);
         }
     }
+    
 }

@@ -7,7 +7,9 @@ package Modelo;
 
 import JavaBeans.clsTiquete;
 import java.sql.CallableStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -45,5 +47,30 @@ public class ModeloTiquete {
             bd.desconectar();
         }
         return false;
+    }
+    
+    public DefaultTableModel mostrarTiquetesVendidos() {
+        DataBase bd = new DataBase();
+        String titulos[] = {"Lugar Salida", "Lugar Destino", "Ruta", "numero Asiento", "Preferencial", "Fecha Venta", "Precio"};
+        DefaultTableModel modelo = new DefaultTableModel(null, titulos);
+        try {
+            bd.conectar();
+            CallableStatement cst = bd.getConexion().prepareCall("{call pa_mostrar_tiquetes()}");
+            cst.execute();
+            ResultSet rs = cst.getResultSet();
+            while (rs.next()) {
+
+                Object newRow[] = {rs.getString(1), rs.getString(2), rs.getInt(3), rs.getInt(4), rs.getInt(5), rs.getString(6),
+                    rs.getFloat(7)};
+                modelo.addRow(newRow);
+
+            }
+        } catch (SQLException e) {
+
+        } finally {
+            // cerrar la conexion
+            bd.desconectar();
+        }
+        return modelo;
     }
 }
