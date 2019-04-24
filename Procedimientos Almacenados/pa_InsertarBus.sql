@@ -1,5 +1,5 @@
 Delimiter $$
-CREATE DEFINER=`root`@`local` PROCEDURE `pa_insertar_bus`(
+CREATE  PROCEDURE `pa_insertar_bus`(
 	IN p_idBus int(11),
 	IN p_placa varchar(7),
 	IN p_marca varchar(20), 

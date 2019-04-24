@@ -1,4 +1,4 @@
-CREATE DEFINER=`root`@`localhost` PROCEDURE `pa_insertar_chofer`(
+﻿CREATE DEFINER=`root`@`localhost` PROCEDURE `pa_insertar_chofer`(
 	IN p_cedula varchar(20),
 	IN p_nombre varchar(30),
 	IN p_apellido varchar(30), 
@@ -14,7 +14,7 @@ BEGIN
 						FROM chofer 
 						WHERE cedula = p_cedula) THEN
 			
-			INSERT INTO chofer(cedula, nombre, apellido,correo,telefono,direcion)
+			INSERT INTO chofer(cedula, nombre, apellido,correo,telefono,direccion)
 						VALUES (p_cedula, p_nombre, p_apellido, p_correo, p_telefono, p_direccion);
 			set success = 1;
 

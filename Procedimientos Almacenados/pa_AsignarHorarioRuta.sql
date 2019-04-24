@@ -6,7 +6,7 @@ OUT success boolean
 )
 BEGIN
 IF EXISTS (SELECT idruta from ruta WHERE idruta=p_idruta)THEN
-INSERT INTO `ruta-hoRario` (`idruta`,
+INSERT INTO `ruta-horario` (`idruta`,
 `idHorario`)
 VALUES(p_idruta,p_idHorario);
 SET success =true;
