@@ -41,7 +41,6 @@ public class ModeloBus {
             if (cst.getBoolean(8)) {
                 return true;
             }
-
         } catch (SQLException e) {
             System.out.println(e);
             return false;
@@ -75,23 +74,22 @@ public class ModeloBus {
         try {
             bd.conectar();
             CallableStatement cst
-                    = bd.getConexion().prepareCall("{call pa_editar_Bus(?,?,?,?,?,?,?,?)}");
+                    = bd.getConexion().prepareCall("{call pa_editar_Bus(?,?,?,?,?,?,?)}");
             // Parametro de entrada del procedimiento almacenado
-            cst.setInt(1, bus.getIdBus());
-            cst.setString(2, bus.getPlaca());
-            cst.setString(3, bus.getMarca());
-            cst.setString(4, bus.getModelo());
-            cst.setInt(5, bus.getAnnio());
-            cst.setString(6, bus.getChofer());
-            cst.setInt(7, bus.getCapacidad());
+            cst.setString(1, bus.getPlaca());
+            cst.setString(2, bus.getMarca());
+            cst.setString(3, bus.getModelo());
+            cst.setInt(4, bus.getAnnio());
+            cst.setString(5, bus.getChofer());
+            cst.setInt(6, bus.getCapacidad());
 
             // Definimos los tipos de los parametros de salida del procedimiento almacenado
-            cst.registerOutParameter(8, java.sql.Types.BOOLEAN);
+            cst.registerOutParameter(7, java.sql.Types.BOOLEAN);
 
             // Ejecuta el procedimiento almacenado
             cst.execute();
 
-            if (cst.getBoolean(8)) {
+            if (cst.getBoolean(7)) {
                 return true;
             }
 

@@ -69,8 +69,9 @@ public class ChoferesControlador implements ActionListener, WindowListener, KeyL
         }
         // Acción para el botón que abre el módulo del agregar chofer. 
         if (e.getSource() == moduloChofer.btnAgregar) {
+            agregarChofer.setTitle("Agregar Chofer");
+            limpiarVistaNuevo();
             agregarChofer.setVisible(true);
-            agregarChofer.setTitle("AgregarChofer");
         }
         // Acción para el botón guardar dentro del form agregarchofer chofer. 
 
@@ -83,24 +84,24 @@ public class ChoferesControlador implements ActionListener, WindowListener, KeyL
                 chofer.setCorreo(agregarChofer.txtCorreoChofer.getText());
                 chofer.setTelefono(Integer.parseInt(agregarChofer.txtTelChofer.getText()));
                 chofer.setDireccion(agregarChofer.txtDireccionChofer.getText());
+                if (agregarChofer.getTitle().equals("Agregar Chofer")) {
+                    //Agregar chofer
+                    if (modeloChofer.insertarChofer(chofer)) {
+                        JOptionPane.showMessageDialog(agregarChofer, "Chofer Registrado");
+                        limpiarVistaNuevo();
+                    } else {
+                        JOptionPane.showMessageDialog(agregarChofer, "Error al guardar");
+                    }
+                } else {
+                    //Editar CHofer
+                    modeloChofer.editarChofer(chofer);
+                    JOptionPane.showMessageDialog(agregarChofer, "Chofer Editado");
+                }
             } else {
                 JOptionPane.showMessageDialog(agregarChofer, "Debe completar los campos solicitados");
 
             }
 
-            if (agregarChofer.getTitle().equals("AgregarChofer")) {
-                //Agregar chofer
-                if (modeloChofer.insertarChofer(chofer)) {
-                    JOptionPane.showMessageDialog(agregarChofer, "Chofer Registrado");
-                    limpiarVistaNuevo();
-                } else {
-                    JOptionPane.showMessageDialog(agregarChofer, "Error al guardar");
-                }
-            } else {
-                //Editar CHofer
-                modeloChofer.editarChofer(chofer);
-                JOptionPane.showMessageDialog(agregarChofer, "Chofer Editado");
-            }
         }
         // Acción para el botón que limpia  la pantalla en el form agregarchofer. 
         if (e.getSource() == agregarChofer.btnLimpiar) {
@@ -198,7 +199,11 @@ public class ChoferesControlador implements ActionListener, WindowListener, KeyL
     }
 
     public void limpiarVistaNuevo() {
-        agregarChofer.txtCedulaChofer.setText(null);
+        if (agregarChofer.getTitle().equals("Agregar Chofer")) {
+            agregarChofer.txtCedulaChofer.setText(null);
+            agregarChofer.txtCedulaChofer.setEnabled(true);
+        }
+
         agregarChofer.txtDireccionChofer.setText(null);
         agregarChofer.txtApellidoChofer.setText(null);
         agregarChofer.txtTelChofer.setText(null);

@@ -1,4 +1,3 @@
-use 'clinica-db'
 
 DELIMITER //
 CREATE PROCEDURE pa_eliminar_Bus

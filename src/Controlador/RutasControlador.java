@@ -83,24 +83,25 @@ public class RutasControlador implements ActionListener, WindowListener, KeyList
                 ruta.setLugarDestino(agregarRuta.txtLugarDestino.getText());
                 ruta.setPrecio(Float.parseFloat(agregarRuta.txtPrecio.getText()));
                 ruta.setAsientos_disponibles(Integer.parseInt(agregarRuta.txtAsientosDisp.getText()));
+                if (agregarRuta.getTitle().equals("Agregar Ruta")) {
+                    //Agregar chofer
+                    if (modeloRuta.insertarRuta(ruta)) {
+                        JOptionPane.showMessageDialog(agregarRuta, "Ruta Registrada");
+                        limpiarVistaNuevo();
+                    } else {
+                        JOptionPane.showMessageDialog(agregarRuta, "Error al guardar");
+                    }
+                } else {
+                    //Editar CHofer
+                    modeloRuta.editarRuta(ruta);
+                    JOptionPane.showMessageDialog(agregarRuta, "Ruta Editada");
+                }
+
             } else {
                 JOptionPane.showMessageDialog(agregarRuta, "Debe completar los campos solicitados");
 
             }
 
-            if (agregarRuta.getTitle().equals("Agregar Ruta")) {
-                //Agregar chofer
-                if (modeloRuta.insertarRuta(ruta)) {
-                    JOptionPane.showMessageDialog(agregarRuta, "Ruta Registrada");
-                    limpiarVistaNuevo();
-                } else {
-                    JOptionPane.showMessageDialog(agregarRuta, "Error al guardar");
-                }
-            } else {
-                //Editar CHofer
-                modeloRuta.editarRuta(ruta);
-                JOptionPane.showMessageDialog(agregarRuta, "Ruta Editada");
-            }
         }
         // Acción para el botón que limpia  la pantalla en el form agregarchofer. 
         if (e.getSource() == agregarRuta.btnLimpiar) {
@@ -136,11 +137,11 @@ public class RutasControlador implements ActionListener, WindowListener, KeyList
                     if (modeloRuta.eliminarRuta(Integer.parseInt(moduloRuta.tblDatos.getValueAt(moduloRuta.tblDatos.getSelectedRow(), 1).toString()))) {
                         JOptionPane.showMessageDialog(null, "Registro eliminado exitosamente");
                     } else {
-                        System.out.println("No Elimnars");
+                        System.out.println("Problema al eliminar la ruta");
                     }
-                } else {
-                    JOptionPane.showMessageDialog(agregarRuta, "Debe seleccionar al menos una fila para eliminar");
                 }
+            } else {
+                JOptionPane.showMessageDialog(agregarRuta, "Debe seleccionar al menos una fila para eliminar");
             }
         }
 
@@ -149,7 +150,7 @@ public class RutasControlador implements ActionListener, WindowListener, KeyList
     @Override
     public void windowActivated(WindowEvent we
     ) {
-        String titulos[] = {"ID Ruta", "Lugar Salida", "Lugar Destino", "Precio","Placa Bus", "Asientos Disponibles"};
+        String titulos[] = {"ID Ruta", "Lugar Salida", "Lugar Destino", "Precio", "Asientos Disponibles"};
         modelT = new DefaultTableModel(null, titulos);
         DataBase bd = new DataBase();
 
@@ -159,7 +160,7 @@ public class RutasControlador implements ActionListener, WindowListener, KeyList
             bd.ejecutarSqlSelect("select * from ruta");
             rs = bd.obtenerRegistro();
             do {
-                modelT.addRow(new Object[]{rs.getInt(1), rs.getString(2), rs.getString(3), rs.getFloat(4), rs.getString(5),rs.getInt(6)});
+                modelT.addRow(new Object[]{rs.getInt(1), rs.getString(2), rs.getString(3), rs.getFloat(4), rs.getInt(5)});
 
             } while (rs.next());
             moduloRuta.tblDatos.setModel(modelT);
@@ -196,7 +197,10 @@ public class RutasControlador implements ActionListener, WindowListener, KeyList
     }
 
     public void limpiarVistaNuevo() {
-        agregarRuta.txtIdRuta.setText(null);
+        if (agregarRuta.getTitle().equals("Agregar Ruta")) {
+            agregarRuta.txtIdRuta.setText(null);
+            agregarRuta.txtIdRuta.setEnabled(true);
+        }
         agregarRuta.txtLugarSalida.setText(null);
         agregarRuta.txtLugarDestino.setText(null);
         agregarRuta.txtPrecio.setText(null);
