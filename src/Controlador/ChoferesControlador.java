@@ -58,6 +58,10 @@ public class ChoferesControlador implements ActionListener, WindowListener, KeyL
         this.agregarChofer.btnGuardar.addActionListener(this);
         this.agregarChofer.btnCancelar.addActionListener(this);
         this.agregarChofer.btnLimpiar.addActionListener(this);
+        this.agregarChofer.txtApellidoChofer.addKeyListener(this);
+        this.agregarChofer.txtCedulaChofer.addKeyListener(this);
+        this.agregarChofer.txtNombreChofer.addKeyListener(this);
+        this.agregarChofer.txtTelChofer.addKeyListener(this);
 
     }
 
@@ -223,6 +227,26 @@ public class ChoferesControlador implements ActionListener, WindowListener, KeyL
 
     @Override
     public void keyTyped(KeyEvent e) {
+        if (e.getSource().equals(agregarChofer.txtCedulaChofer) || e.getSource().equals(agregarChofer.txtTelChofer)) {
+            isDigit(e);
+        }
+        if (e.getSource().equals(agregarChofer.txtNombreChofer) || e.getSource().equals(agregarChofer.txtApellidoChofer)) {
+            isLetter(e);
+        }
+    }
+    private void isDigit(KeyEvent e) {
+        char tecla;
+        tecla = e.getKeyChar();
+        if (!Character.isDigit(tecla) && tecla != com.sun.glass.events.KeyEvent.VK_BACKSPACE) {
+            e.consume();
+        }
+    }
+    private void isLetter(KeyEvent e) {
+        char tecla;
+        tecla = e.getKeyChar();
+        if (!Character.isLetter(tecla) && tecla != com.sun.glass.events.KeyEvent.VK_BACKSPACE) {
+            e.consume();
+        }
     }
 
     @Override
