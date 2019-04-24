@@ -70,9 +70,9 @@ public class TiqueteControlador implements ActionListener, WindowListener, Mouse
 
         if (e.getSource().equals(moduloBoleteria.cmbRuta)) {
             if (moduloBoleteria.cmbRuta.getSelectedIndex() > 0) {
-                
                 String idruta[] = moduloBoleteria.cmbRuta.getSelectedItem().toString().split("-");
                 cargarComboHorarios(idruta[0]);
+                cargaPrecio(idruta[0]);
             }
         }
 
@@ -93,19 +93,19 @@ public class TiqueteControlador implements ActionListener, WindowListener, Mouse
                     // 0 = asiento regular
                     tiquete.setPreferencial(0);
                 }
+                if (modeloTiquete.insertarTiquete(tiquete)) {
+                    JOptionPane.showMessageDialog(moduloBoleteria, "tiquete Registrado");
+                    cargarComboBoleteria();
+                    limpiarVistaNuevo();
+                } else {
+                    JOptionPane.showMessageDialog(moduloBoleteria, "Error al guardar");
+                }
 
             } else {
                 JOptionPane.showMessageDialog(moduloBoleteria, "Debe completar los campos solicitados");
 
             }
 
-            if (modeloTiquete.insertarTiquete(tiquete)) {
-                JOptionPane.showMessageDialog(moduloBoleteria, "tiquete Registrado");
-                cargarComboBoleteria();
-                limpiarVistaNuevo();
-            } else {
-                JOptionPane.showMessageDialog(moduloBoleteria, "Error al guardar");
-            }
         }
 
         if (e.getSource() == moduloBoleteria.btnCancelar) {
@@ -172,6 +172,7 @@ public class TiqueteControlador implements ActionListener, WindowListener, Mouse
     }
 
     private void cargarComboBoleteria() {
+         
         DefaultComboBoxModel cmbModel = new DefaultComboBoxModel();
         DataBase bd = new DataBase();
         cmbModel.addElement("Seleccionar.....");
@@ -183,9 +184,7 @@ public class TiqueteControlador implements ActionListener, WindowListener, Mouse
             rs = bd.obtenerRegistro();
             do {
                 cmbModel.addElement(rs.getInt(1) + "- " + rs.getString(2) + "- " + rs.getString(3));
-                moduloBoleteria.txtPrecio.setEnabled(false);
-                moduloBoleteria.txtPrecio.setText(String.valueOf(rs.getFloat(4)));
-            } while (rs.next());
+               } while (rs.next());
             moduloBoleteria.cmbRuta.setModel(cmbModel);
 
         } catch (SQLException ex) {
@@ -238,5 +237,23 @@ public class TiqueteControlador implements ActionListener, WindowListener, Mouse
     @Override
     public void mouseExited(MouseEvent e) {
         //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    private void cargaPrecio(String idRuta) {
+       DataBase bd = new DataBase();
+                ResultSet rs;
+
+        try {
+            bd.ejecutarSqlSelect("SELECT precio FROM ruta WHERE idruta= "+idRuta+"");
+            rs = bd.obtenerRegistro();
+            do {
+                moduloBoleteria.txtPrecio.setText(String.valueOf(rs.getFloat(1)));
+                moduloBoleteria.txtPrecio.setEditable(false);
+            } while (rs.next());
+           
+
+        } catch (SQLException ex) {
+            System.out.println(ex);
+        }
     }
 }

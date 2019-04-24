@@ -17,10 +17,10 @@ import javax.swing.JOptionPane;
 public class DataBase {
     private final String base = "autobus";
     private final String user = "root";
-    //private final String password = "1234";
+    private final String password = "1234";
     //private final String url = "jdbc:mysql://192.168.0.3/"+base;
-    private final String password = "";
-    private final String url = "jdbc:mysql://10.211.55.3/"+base;
+    //private final String password = "";
+    private final String url = "jdbc:mysql://localhost/"+base;
     
     private Connection conexion = null;
     private Statement sql;
