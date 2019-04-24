@@ -18,10 +18,9 @@ public class DataBase {
     private final String base = "autobus";
     private final String user = "root";
     private final String password = "1234";
-    //private final String url = "jdbc:mysql://192.168.0.3/"+base;
-    //private final String password = "";
     private final String url = "jdbc:mysql://localhost/"+base;
-    
+     //private final String url = "jdbc:mysql://192.168.0.3/"+base;
+    //private final String password = "";
     private Connection conexion = null;
     private Statement sql;
     private ResultSet datos;
