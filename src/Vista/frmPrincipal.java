@@ -65,6 +65,7 @@ public class frmPrincipal extends javax.swing.JFrame {
      */
     public frmPrincipal() {
         initComponents();
+        controladorTiquete = new TiqueteControlador(frameBoleteria, this,tiquete, modeloTiquete);
    
     }
 
@@ -260,8 +261,7 @@ public class frmPrincipal extends javax.swing.JFrame {
 
     private void btnBoleteriaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBoleteriaActionPerformed
         // TODO add your handling code here:
-        controladorTiquete = new TiqueteControlador(frameBoleteria, this,tiquete, modeloTiquete);
-        controladorTiquete.actionPerformed(evt);
+        
     }//GEN-LAST:event_btnBoleteriaActionPerformed
 
 
