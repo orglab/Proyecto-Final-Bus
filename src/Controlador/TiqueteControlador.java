@@ -12,6 +12,8 @@ import Vista.frmBoleteria;
 import Vista.frmPrincipal;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.WindowEvent;
@@ -31,7 +33,7 @@ import java.util.logging.Logger;
  *
  * @author JJGB
  */
-public class TiqueteControlador implements ActionListener, WindowListener, MouseListener {
+public class TiqueteControlador implements ActionListener, WindowListener, KeyListener {
 
     private frmBoleteria moduloBoleteria;
     public frmPrincipal moduloPrincipal;
@@ -55,7 +57,7 @@ public class TiqueteControlador implements ActionListener, WindowListener, Mouse
         this.moduloBoleteria.cmbRuta.addActionListener(this);
         this.moduloBoleteria.cmbHora.addActionListener(this);
         this.moduloBoleteria.addWindowListener(this);
-                
+        this.moduloBoleteria.txtNumAsiento.addKeyListener(this);
 
     }
 
@@ -74,6 +76,7 @@ public class TiqueteControlador implements ActionListener, WindowListener, Mouse
 
         if (e.getSource().equals(moduloBoleteria.cmbRuta)) {
             if (moduloBoleteria.cmbRuta.getSelectedIndex() > 0) {
+<<<<<<< HEAD
                 String idruta[] = moduloBoleteria.cmbRuta.getSelectedItem().toString().split("-");
                 try {
                     cargarComboHorarios(idruta[0]);
@@ -81,6 +84,12 @@ public class TiqueteControlador implements ActionListener, WindowListener, Mouse
                     Logger.getLogger(TiqueteControlador.class.getName()).log(Level.SEVERE, null, ex);
                 }
                 cargaPrecio(idruta[0]);
+=======
+
+                String idruta[] = moduloBoleteria.cmbRuta.getSelectedItem().toString().split("-");
+                moduloBoleteria.txtPrecio.setText(idruta[0]);
+                cargarComboHorarios(idruta[0]);
+>>>>>>> featureModalTiquetes
             }
         }
 
@@ -206,7 +215,13 @@ public class TiqueteControlador implements ActionListener, WindowListener, Mouse
             rs = bd.obtenerRegistro();
             do {
                 cmbModel.addElement(rs.getInt(1) + "- " + rs.getString(2) + "- " + rs.getString(3));
+<<<<<<< HEAD
                } while (rs.next());
+=======
+                moduloBoleteria.txtPrecio.setEditable(false);
+                moduloBoleteria.txtPrecio.setText(String.valueOf(rs.getFloat(4)));
+            } while (rs.next());
+>>>>>>> featureModalTiquetes
             moduloBoleteria.cmbRuta.setModel(cmbModel);
 
         } catch (SQLException ex) {
@@ -239,27 +254,28 @@ public class TiqueteControlador implements ActionListener, WindowListener, Mouse
     }
 
     @Override
-    public void mouseClicked(MouseEvent e) {
+    public void keyTyped(KeyEvent e) {
+        if (e.getSource().equals(moduloBoleteria.txtNumAsiento)) {
+            isletter(e);
+        }
     }
 
     @Override
-    public void mousePressed(MouseEvent e) {
+    public void keyPressed(KeyEvent e) {
         //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public void mouseReleased(MouseEvent e) {
-        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public void keyReleased(KeyEvent e) {
+
     }
 
-    @Override
-    public void mouseEntered(MouseEvent e) {
-        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public void mouseExited(MouseEvent e) {
-        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    private void isletter(KeyEvent e) {
+        char tecla;
+        tecla = e.getKeyChar();
+        if (!Character.isDigit(tecla) && tecla != com.sun.glass.events.KeyEvent.VK_BACKSPACE) {
+            e.consume();
+        }
     }
 
     private void cargaPrecio(String idRuta) {

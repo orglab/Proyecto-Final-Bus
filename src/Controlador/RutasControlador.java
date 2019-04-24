@@ -58,6 +58,10 @@ public class RutasControlador implements ActionListener, WindowListener, KeyList
         this.agregarRuta.btnGuardar.addActionListener(this);
         this.agregarRuta.btnCancelar.addActionListener(this);
         this.agregarRuta.btnLimpiar.addActionListener(this);
+        this.agregarRuta.txtAsientosDisp.addKeyListener(this);
+        this.agregarRuta.txtPrecio.addKeyListener(this);
+        this.agregarRuta.txtLugarDestino.addKeyListener(this);
+        this.agregarRuta.txtLugarSalida.addKeyListener(this);
 
     }
 
@@ -217,8 +221,28 @@ public class RutasControlador implements ActionListener, WindowListener, KeyList
 
     @Override
     public void keyTyped(KeyEvent e) {
+        if (e.getSource().equals(agregarRuta.txtPrecio) || e.getSource().equals(agregarRuta.txtAsientosDisp)) {
+            isDigit(e);
+        }
+        if (e.getSource().equals(agregarRuta.txtLugarDestino) || e.getSource().equals(agregarRuta.txtLugarSalida)) {
+            isLetter(e);
+        }
     }
 
+    private void isDigit(KeyEvent e) {
+        char tecla;
+        tecla = e.getKeyChar();
+        if (!Character.isDigit(tecla) && tecla != com.sun.glass.events.KeyEvent.VK_BACKSPACE) {
+            e.consume();
+        }
+    }
+    private void isLetter(KeyEvent e) {
+        char tecla;
+        tecla = e.getKeyChar();
+        if (!Character.isLetter(tecla) && tecla != com.sun.glass.events.KeyEvent.VK_BACKSPACE) {
+            e.consume();
+        }
+    }
     @Override
     public void keyPressed(KeyEvent e) {
     }

@@ -61,7 +61,8 @@ public class BusControlador implements ActionListener, WindowListener, KeyListen
         this.agregarBus.btnGuardar.addActionListener(this);
         this.agregarBus.btnCancelar.addActionListener(this);
         this.agregarBus.btnLimpiar.addActionListener(this);
-
+        this.agregarBus.txtCapacidad.addKeyListener(this);
+        this.agregarBus.txtAnio.addKeyListener(this);
     }
 
     @Override
@@ -219,7 +220,17 @@ public class BusControlador implements ActionListener, WindowListener, KeyListen
 
     @Override
     public void keyTyped(KeyEvent e) {
-        // throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        if (e.getSource().equals(agregarBus.txtCapacidad) || e.getSource().equals(agregarBus.txtAnio)) {
+            isDigit(e);
+        }
+    }
+
+    private void isDigit(KeyEvent e) {
+        char tecla;
+        tecla = e.getKeyChar();
+        if (!Character.isDigit(tecla) && tecla != com.sun.glass.events.KeyEvent.VK_BACKSPACE) {
+            e.consume();
+        }
     }
 
     @Override
