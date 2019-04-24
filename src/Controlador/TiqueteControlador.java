@@ -22,7 +22,10 @@ import java.sql.SQLException;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JOptionPane;
 import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -51,6 +54,8 @@ public class TiqueteControlador implements ActionListener, WindowListener, Mouse
         this.moduloBoleteria.btnLimpiar.addActionListener(this);
         this.moduloBoleteria.cmbRuta.addActionListener(this);
         this.moduloBoleteria.cmbHora.addActionListener(this);
+        this.moduloBoleteria.addWindowListener(this);
+                
 
     }
 
@@ -59,9 +64,8 @@ public class TiqueteControlador implements ActionListener, WindowListener, Mouse
         if (e.getSource() == moduloPrincipal.btnBoleteria) {
             moduloBoleteria.setTitle("Modulo de Boleteria");
             cargarComboBoleteria();
-            //moduloBoleteria.txtIdTiquete.setEnabled(false);
             Date now = new Date(System.currentTimeMillis());
-            DateFormat dateFormat = new SimpleDateFormat("HH:mm:ss");
+            DateFormat dateFormat = new SimpleDateFormat("E, MMM dd yyyy- HH:mm:ss");
             String date = dateFormat.format(now);
             moduloBoleteria.txtFechaVenta.setText(date);
             moduloBoleteria.txtFechaVenta.setEditable(false);
@@ -71,7 +75,11 @@ public class TiqueteControlador implements ActionListener, WindowListener, Mouse
         if (e.getSource().equals(moduloBoleteria.cmbRuta)) {
             if (moduloBoleteria.cmbRuta.getSelectedIndex() > 0) {
                 String idruta[] = moduloBoleteria.cmbRuta.getSelectedItem().toString().split("-");
-                cargarComboHorarios(idruta[0]);
+                try {
+                    cargarComboHorarios(idruta[0]);
+                } catch (ParseException ex) {
+                    Logger.getLogger(TiqueteControlador.class.getName()).log(Level.SEVERE, null, ex);
+                }
                 cargaPrecio(idruta[0]);
             }
         }
@@ -86,7 +94,7 @@ public class TiqueteControlador implements ActionListener, WindowListener, Mouse
                 tiquete.setRuta(Integer.parseInt(ruta[0]));
                 tiquete.setNumAsiento(Integer.parseInt(moduloBoleteria.txtNumAsiento.getText()));
                 String[] hora = moduloBoleteria.cmbHora.getSelectedItem().toString().split("-");
-                if (e.getSource().equals(moduloBoleteria.chkPreferencial.isSelected())) {
+                if (!e.getSource().equals(moduloBoleteria.chkPreferencial.isSelected())) {
                     // 1 = asiento preferencial
                     tiquete.setPreferencial(1);
                 } else {
@@ -146,6 +154,21 @@ public class TiqueteControlador implements ActionListener, WindowListener, Mouse
 
     @Override
     public void windowActivated(WindowEvent e) {
+            DataBase bd = new DataBase();
+                ResultSet rs;
+
+        try {
+            bd.ejecutarSqlSelect("SELECT COUNT(idtiquetes) FROM tiquetes");
+            rs = bd.obtenerRegistro();
+            do {
+                moduloBoleteria.txtIdTiquete.setText(String.valueOf(rs.getInt(1)+1));
+                 moduloBoleteria.txtIdTiquete.setEditable(false);
+                } while (rs.next());
+           
+
+        } catch (SQLException ex) {
+            System.out.println(ex);
+        }
     }
 
     @Override
@@ -162,7 +185,6 @@ public class TiqueteControlador implements ActionListener, WindowListener, Mouse
     }
 
     public void limpiarVistaNuevo() {
-        moduloBoleteria.txtFechaVenta.setText(null);
         moduloBoleteria.txtIdTiquete.setText(null);
         moduloBoleteria.txtNumAsiento.setText(null);
         moduloBoleteria.cmbRuta.setSelectedItem(0);
@@ -194,17 +216,18 @@ public class TiqueteControlador implements ActionListener, WindowListener, Mouse
         }
     }
 
-    private void cargarComboHorarios(String str) {
+    private void cargarComboHorarios(String str) throws ParseException {
         DefaultComboBoxModel cmbModel = new DefaultComboBoxModel();
         DataBase bd = new DataBase();
         cmbModel.addElement("Seleccionar.....");
         ResultSet rs;
-
+      
         try {
-            bd.ejecutarSqlSelect("Select * from horario  WHERE idhorario NOT IN(SELECT idhorario FROM `ruta-horario` WHERE idruta=" + str + ")");
+            bd.ejecutarSqlSelect("Select * from horario  WHERE idhorario IN(SELECT idhorario FROM `ruta-horario` WHERE idruta=" + str + ")");
             rs = bd.obtenerRegistro();
             do {
-                cmbModel.addElement(rs.getInt(1) + "- " + rs.getString(2));
+                String dat[] = rs.getString(2).split(" ");
+                cmbModel.addElement(rs.getInt(1) + "- " + dat[1]);
             } while (rs.next());
             moduloBoleteria.cmbHora.setModel(cmbModel);
 
