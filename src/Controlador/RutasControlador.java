@@ -43,7 +43,6 @@ public class RutasControlador implements ActionListener, WindowListener, KeyList
         this.ruta = ruta;
         this.modeloRuta = modelRuta;
 
-        //Listener de la  de choferes
         //Listener para los Botones mapeados en la vista
         this.moduloPrincipal.btnModChoferes.addActionListener(this);
 
