@@ -26,7 +26,7 @@ import javax.swing.table.DefaultTableModel;
  * @author Manyor
  */
 public class ControladorHorariosRuta implements ActionListener, WindowListener {
-    
+     
     frmHorariosRutas frmhorariosRutas;
     ModeloHorariosRuta modeloHorariosRuta;
     frmPrincipal principal;
