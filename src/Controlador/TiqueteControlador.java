@@ -70,6 +70,7 @@ public class TiqueteControlador implements ActionListener, WindowListener, Mouse
 
         if (e.getSource().equals(moduloBoleteria.cmbRuta)) {
             if (moduloBoleteria.cmbRuta.getSelectedIndex() > 0) {
+                
                 String idruta[] = moduloBoleteria.cmbRuta.getSelectedItem().toString().split("-");
                 cargarComboHorarios(idruta[0]);
             }
@@ -82,6 +83,7 @@ public class TiqueteControlador implements ActionListener, WindowListener, Mouse
                 tiquete.setFechaVenta(now);
                 tiquete.setIdTiquete(Integer.parseInt(moduloBoleteria.txtIdTiquete.getText()));
                 String[] ruta = moduloBoleteria.cmbRuta.getSelectedItem().toString().split("-");
+                tiquete.setRuta(Integer.parseInt(ruta[0]));
                 tiquete.setNumAsiento(Integer.parseInt(moduloBoleteria.txtNumAsiento.getText()));
                 String[] hora = moduloBoleteria.cmbHora.getSelectedItem().toString().split("-");
                 if (e.getSource().equals(moduloBoleteria.chkPreferencial.isSelected())) {
