@@ -245,7 +245,7 @@ public class TiqueteControlador implements ActionListener, WindowListener, KeyLi
             rs = bd.obtenerRegistro();
             do {
                 String dat[] = rs.getString(2).split(" ");
-                cmbModel.addElement(rs.getInt(1) + "- " + dat[0]);
+                cmbModel.addElement(rs.getInt(1) + "- " + dat[1]);
             } while (rs.next());
             moduloBoleteria.cmbHora.setModel(cmbModel);
 
